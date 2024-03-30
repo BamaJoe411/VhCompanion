@@ -1,0 +1,33 @@
+plugins {
+    id 'fabric-loom' version '1.5-SNAPSHOT'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.dep_minecraft}"
+    mappings "net.fabricmc:yarn:${project.dep_mappings}"
+    modImplementation "net.fabricmc:fabric-loader:${project.dep_loader}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.dep_stdlib}"
+}
+
+processResources {
+    filesMatching(['fabric.mod.json', 'quilt.mod.json']) {
+        expand (
+            'version': project.version
+        )
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+jar {
+    from ('LICENSE') {
+        rename { "${it}_${project.id}" }
+    }
+}

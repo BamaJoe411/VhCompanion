@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 1,
+    "id": "vhcompanion",
+    "version": "${version}",
+    "name": "VH Companion",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "hibi.vhcompanion.ClientInit"
+        ]
+    },
+    "depends": {
+        "minecraft": "~1.20.4",
+        "fabric-api": "*"
+    }
+}
