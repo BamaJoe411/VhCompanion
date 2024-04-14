@@ -20,7 +20,7 @@ public class ClientInit implements ClientModInitializer {
             dispatcher.register(ClientCommandManager.literal("guidebook").executes(ClientCommands::guidebookCommand));
             dispatcher.register(
                 ClientCommandManager.literal("httpRequest")
-                        .then(argument("key", StringArgumentType.string()))
+                        .then(argument("key", StringArgumentType.string())
                         .executes( context -> {
                             final String key = StringArgumentType.getString(context, "key");
                             try {
@@ -30,8 +30,7 @@ public class ClientInit implements ClientModInitializer {
                                 throw new RuntimeException(e);
                             }
                             return 0;
-                        })
-            );
+                        })));
         });
     }
 }
