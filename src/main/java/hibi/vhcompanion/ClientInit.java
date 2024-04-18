@@ -5,7 +5,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.text.Text;
+
 import java.io.IOException;
+
+import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
+
 
 public class ClientInit implements ClientModInitializer {
     @Override
@@ -16,20 +20,17 @@ public class ClientInit implements ClientModInitializer {
             dispatcher.register(ClientCommandManager.literal("guidebook").executes(ClientCommands::guidebookCommand));
             dispatcher.register(
                 ClientCommandManager.literal("httpRequest")
-                        .then(ClientCommandManager.argument("name", StringArgumentType.string())
-                            .executes( context -> {
-                                final String name = StringArgumentType.getString(context, "name");
-                                try {
-                                    String response = PostRequest.sendPost(name);
-                                    context.getSource().sendFeedback(Text.literal(response));
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
-                                return 0;
-                            })
-                        )
-            );
+                        .then(argument("key", StringArgumentType.string())
+                        .executes( context -> {
+                            final String key = StringArgumentType.getString(context, "key");
+                            try {
+                                String response = HTTPRequest.sendPOST(key);
+                                context.getSource().sendFeedback(Text.literal(response));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            return 0;
+                        })));
         });
     }
 }
-
