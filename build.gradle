@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     minecraft "com.mojang:minecraft:${project.dep_minecraft}"
     mappings "net.fabricmc:yarn:${project.dep_mappings}"
     modImplementation "net.fabricmc:fabric-loader:${project.dep_loader}"
